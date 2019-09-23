@@ -1,0 +1,140 @@
+[窥探iOS底层实现--OC对象的本质(一)](http://www.hsdian.cn/?p=200)
+
+[窥探iOS底层实现--OC对象的本质(二)](http://www.hsdian.cn/?p=138)
+
+[窥探iOS底层实现--OC对象的分类：instance、class、meta-calss对象的isa和superclass](http://www.hsdian.cn/?p=146)
+
+[窥探iOS底层实现-- KVO/KVC的本质](https://juejin.im/post/5c2189dee51d454517589c8b)
+
+...
+
+**`思考： 如果我的Student有三个成员变量 那么会占用对少个字节？
+（class_getInstanceSize([Student class]) 的输出是多少？
+ malloc_size((__bridge const void *)stu的输出是多少？ ）`**
+
+```objc
+#import <malloc/malloc.h>
+#import <OBJC/runtime.h>
+///> Student类
+@interface Student: NSObject{
+    @public
+    int _no;
+    int _age;
+    int _gender;
+}
+
+///> 实际底层的结构体 结构
+//struct Student_IMPL{
+//    Class isa,
+//    int _no,
+//    int _age;
+//    int _gender;
+
+//}
+@end
+
+@implementation Student
+@end
+
+///> main
+int main(int argc, char * argv[]) {
+    @autoreleasepool {
+        Student *stu = [[Student alloc]init];
+        stu->_no = 4;
+        stu->_age = 5;
+        stu->_gender = 1; 
+        NSLog(@"%zd", class_getInstanceSize([Student class]));
+        NSLog(@"%zd", malloc_size((__bridge const void *)stu));        
+        
+        /**输出结果
+        24
+        32
+        */ 
+    }
+    return 0;
+}
+```
+- 最终的输出结果为：  
+  - class_getInstanceSize： 24
+  - malloc_size： 32
+#### 首先探究下一为什么malloc_size的输出为32 ?
+可以使用Xcode自带的工具去查看 系统分配的内存和使用的内存情况。
+
+首先我们需要拿到stu对象的内存地址：
+![OC_%E6%89%93%E5%8D%B0%E5%86%85%E5%AD%98%E5%9C%B0%E5%9D%80log.png](https://user-gold-cdn.xitu.io/2018/12/20/167cae05a2ae26c4?w=1720&h=768&f=png&s=341813)
+xcode控制台常用指令：[Xcode调试器LLDB - 掘金](https://juejin.im/post/5c1b5d0f518825508464756b)
+
+这里我们的内存地址为：<Student: 0x600002746b60>
+
+![OC_2_%E6%89%93%E5%BC%80viewMemory.png](https://user-gold-cdn.xitu.io/2018/12/20/167cae05a3d00a1d?w=1892&h=1208&f=png&s=1227613)
+然后选择:Debug --> Degug Workflow --> View Memory
+
+![OC_2_ViewMemory_01.png](https://user-gold-cdn.xitu.io/2018/12/20/167cae05a40c9a3c?w=2260&h=1036&f=png&s=998136)
+在下方的位置输入我们刚刚得到的内存地址后就可以了，stu的内存结构如上图所示
+
+![OC_2_ViewMemory_02.png](https://user-gold-cdn.xitu.io/2018/12/20/167cae05a67934e8?w=1714&h=768&f=png&s=670143)
+直到红线的位置都是stu所开辟的存储空间，直到红色数线后才有了新的值， 在之前都是00值而且在内存中内存是连续的， 所以我们可以认为，直到红色竖线位置之前都是stu所分配的存储空间
+
+![OC_2_ViewMemory_03.png](https://user-gold-cdn.xitu.io/2018/12/20/167cae05a6406e8c?w=1694&h=706&f=png&s=734461)
+如上图所示
+- 绿色区域：前8位就是我们上节课所说的对象的本质实质上就是结构体：然而结构体中的带有Class isa 指针，每个对象中都会包含这个Class isa 这个指针。这个指针占用了8个字节。
+- 蓝色区域：成员变量_no：因为是Int类型所以真用了4个字节。
+- 黄色区域：成员变量_age：因为是Int类型所以真用了4个字节。
+- 灰色区域：成员变量_gender：因为是Int类型所以真用了4个字节。
+- 白色区域：所有的都是00，可以认为是已经开辟的的内存但是并没有使用的区域。
+
+` 由上图分析：我们可以得出 stu实际上在内存中分配了32个字节的内存空间 也就是 malloc_size() 所输出的开辟内存空间的字节数。`
+
+
+#### 接下来探究下一为什么class_getInstanceSize的输出为24 ?
+
+class_getInstanceSize 顾名思义 获取类的实例大小
+isa占用8个 + _no：4个 + _age4个 + _gender4个
+
+```objc
+@interface Student: NSObject{
+    @public
+    Class isa;   ///> 8
+    int _no;     ///> 4
+    int _age;    ///> 4
+    int _gender; ///> 4
+} ///  计算相加后  为20个，
+```
+结构体存在一个内存对其的操作，这样有利于CPU的访问，
+在CO中用到的内存对其的一条规则就是：
+结构体为了保证内存对其 最重的真用内存一定是占用最大的一个变量的倍数， 在这里我们isa占用了8个字节数， 所以虽然实际上只使用了20个字节，但是为了保证内存对其的规则 所以使用了24个字节，  
+
+如果我们有4个成员变量的话：
+```objc
+@interface Student: NSObject{
+    @public
+    Class isa;   ///> 8
+    int _no;     ///> 4
+    int _age;    ///> 4
+    int _gender; ///> 4
+    int _height; ///> 4
+} ///  计算相加后  为24个，
+```
+`我们真用的内存还是24，开辟依旧是32个字节。`
+
+
+如果在增加一个成员变量的话：
+```objc
+@interface Student: NSObject{
+    @public
+    Class isa;   ///> 8
+    int _no;     ///> 4
+    int _age;    ///> 4
+    int _gender; ///> 4
+    int _height; ///> 4
+    int _weight; ///> 4
+} ///  计算相加后  为28个，
+```
+`为了保证内存对其所以大小为32个字节，开辟依旧是32个字节。`
+
+`malloc_size() 也运用了内存对其的 上篇文章中解释了为什么给类的内存分配了16个字节， 由于内存对其的原因所以stu类分配了32个字节。`
+
+
+
+---
+- 文章总结自MJ老师底层视频。

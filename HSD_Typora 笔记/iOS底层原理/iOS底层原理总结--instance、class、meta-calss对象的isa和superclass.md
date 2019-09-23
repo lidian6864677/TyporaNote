@@ -1,0 +1,209 @@
+[窥探iOS底层实现--OC对象的本质(一)](http://www.hsdian.cn/?p=200)
+
+[窥探iOS底层实现--OC对象的本质(二)](http://www.hsdian.cn/?p=138)
+
+[窥探iOS底层实现--OC对象的分类：instance、class、meta-calss对象的isa和superclass](http://www.hsdian.cn/?p=146)
+
+[窥探iOS底层实现-- KVO/KVC的本质](https://juejin.im/post/5c2189dee51d454517589c8b)
+
+...
+
+
+#### OC对象的分类：instance、class、meta-calss对象的isa和superclass
+
+OC对象的分类主要可以分为三种:
+- instance对象 (实例对象)
+- class对象 (类对象)
+- meta-class对象 (元类对象)
+
+## instance
+#### instance对象就是通过类alloc出来的对象，每次调用alloc都会产生新的instance对象。
+
+ ```objc
+ NSObject *obj1 = [[NSObject alloc]init];
+ NSObject *obj2 = [[NSObject alloc]init];
+ ```
+ - obj1、obj2是NSObject的instance对象 (实例对象)
+ - 它们是不同的两个对象，分别占据两块不同的内存空间
+
+##### instance对象在内存中存储的信息包括
+  - isa指针（所有的实例对象都有的。）
+  - 其他成员变量。
+
+`问题： 为什么所有的实例对象内存中都有isa那？`
+
+答： 因为所有的OC类都是继承自NSObject，所以每一个集成的类都包含NSObject里面所包含的isa。
+
+
+```objc
+///> Person类
+@interface Person: NSObject{
+@public
+    int _age;
+}
+@end
+
+@implementation Person
+@end
+
+int main(int argc, char * argv[]) {
+    @autoreleasepool {
+        Person *p1 = [[Person alloc]init];
+        p1->_age = 3;
+        
+        Person *p2 = [[Person alloc]init];
+        p2->_age = 3;
+        
+    }
+}
+return 0;
+```
+![OC_%E5%AF%B9%E8%B1%A1%E7%9A%84%E5%88%86%E7%B1%BB_instance01.png](https://user-gold-cdn.xitu.io/2018/12/20/167caeb2c3136fd4?w=1590&h=370&f=png&s=70711)
+
+- p1 存储的一定是 右侧[[Person alloc]init] 中实例的对象
+  - isa指针
+  - _age = 3
+  - 如果isa的内存地址为0x10010，那么我们的p1的内存地址也是0x10010，因为isa一定在实例对象的第一位，所以isa的内存地址就是person的内存地址。
+
+ ## class
+ ##### Class对象在内存中存储的信息包括
+
+
+ ```objc
+        ///> 实例对象
+        NSObject *object1 = [[NSObject alloc]init];    ///> 实例对象
+        NSObject *object2 = [[NSObject alloc]init];    ///> 实例对象
+        
+        ///> 类对象
+        Class object1Class = [object1 class];          ///> 类对象
+        Class object2Class = [object2 class];          ///> 类对象
+        Class object3Class = object_getClass(object1); ///> 类对象
+        Class object4Class = object_getClass(object2); ///> 类对象
+        Class object5Class = [NSObject class];         ///> 类对象
+ ```
+
+ - isa 指针
+ - superClass 指针
+ - 类的属性信息(@property)、类的对象方法信息(instance method)
+ - 类的协议信息(protocol)、类的成员变量信息(ivar)
+   - 成员变量信息：存储的成员变量的类型，名字等，相当于存储的描述信息，只需要存储一份。
+ ![OC_2_%E5%AF%B9%E8%B1%A1%E7%9A%84%E5%88%86%E7%B1%BB_class.png](https://user-gold-cdn.xitu.io/2018/12/20/167cae990f33b8ac?w=502&h=772&f=png&s=65623)
+
+## meta-class
+ ##### meta-class对象在内存中存储的信息包括
+
+ ```objc
+ /// 注意： 这个位置我们调用的runtime的object_getClass方法 传入的值是  ！！！类对象！！！
+Class objectMeatClass = object_getClass([NSObject class]); ///> 元类对象
+ ```
+
+- objectMeatClass是NSObject的meta-class对象（元类对象）
+- 每个类在内存中有且只有一个meta-class对象
+- meta-class对象和class对象的内存结构是一样的，但是用途不一样，在内存中存储的信息主要包括
+  -  isa指针
+  -  superclass指针
+  -  类的类方法信息(class method)
+![OC_2_%E5%AF%B9%E8%B1%A1%E7%9A%84%E5%88%86%E7%B1%BB_metaClass.png](https://user-gold-cdn.xitu.io/2018/12/20/167cae990fab2012?w=394&h=450&f=png&s=36972)
+
+ 
+
+ ```objc
+  ///> 判断一个对象是否s为元类对象
+  BOOL result = class_isMetaClass([NSObject class]);
+ ```
+
+ 
+
+ ## isa指针
+
+ ##### `问题1： oc对象的isa指针指向哪里？`
+ ##### `问题2： oc类信息存放在哪里？`
+
+下面三种isa中一定存在着某种联系的，因为当我们调用一个对象方法 实际上是运用了OC的消息机制：
+
+```objc
+Person *person = [[Person alloc]init]
+[person test];
+///> 相当于↓↓↓
+objc_msgSend(person, @selector(test));
+
+```
+
+并且类的对象方法存储的位置在类对象中，而我们的person是一个实例对象，我们需要通过实例对象isa指针去寻找person的类对象，然后调用存储在类对象中的test类方法。
+
+![OC_2_%E5%AF%B9%E8%B1%A1%E7%9A%84%E5%88%86%E7%B1%BB_isa%E6%8C%87%E9%92%88.png](https://user-gold-cdn.xitu.io/2018/12/20/167cae990fd20822?w=1874&h=654&f=png&s=116978)
+
+ - instance：实例对象中主要存储的是isa和其他成员变量，isa指针指向着class类对象，
+ - class： 类对象中主要存储的是isa、superclass、属性、对象方法、协议、成员变量。并且类对象的isa指针指向meta-class类对象
+ - meta-class： 元类对象中存储 isa、superclass、类方法的信息。
+
+
+
+
+从64bit开始，isa需要进行一次位运算，才能计算出真实地址
+![OC_2_%E5%AF%B9%E8%B1%A1%E7%9A%84%E5%88%86%E7%B1%BB_isa%E6%8C%87%E9%92%881.png](https://user-gold-cdn.xitu.io/2018/12/20/167cae990fcde7f0?w=1894&h=640&f=png&s=136226)
+ - ISA_MASK:
+ ![OC_2_%E5%AF%B9%E8%B1%A1%E7%9A%84%E5%88%86%E7%B1%BB_ISA_MASK.png](https://user-gold-cdn.xitu.io/2018/12/20/167cae990f740ef4?w=926&h=228&f=png&s=80656)
+
+
+## superclass
+#### class对象的superclass指针
+
+![OC_2_%E5%AF%B9%E8%B1%A1%E7%9A%84%E5%88%86%E7%B1%BB_class-%3Esuperclass.png](https://user-gold-cdn.xitu.io/2018/12/20/167cae9912dc8dd3?w=1864&h=754&f=png&s=195177)
+- 上图：我们有一个Student对象，并且继承Person对象
+- 当Student的Instance对象调用Person对象的方法时
+  - 会先通过 Student的instance对象的isa指针去找到Student的class
+  - 然后，通过Student类对象superclass 寻找Person的class
+  - person中存储着对象方法，找到并实现。 
+  - student的superclass -> person class
+  - person的 superclass -> NSObject class
+
+#### meta-class对象的superclass指针
+![OC_2_%E5%AF%B9%E8%B1%A1%E7%9A%84%E5%88%86%E7%B1%BB_meta-celss-%3Esuperclass.png](https://user-gold-cdn.xitu.io/2018/12/20/167cae99e4e2b8ae?w=1864&h=694&f=png&s=137506)
+- 上图有一个Student对象，并且继承Person对象
+- 当Student的Class对象调用Person类的方法时
+  - 会先通过 Student的class对象的isa指针去找到Student的meta-class
+  - 然后，通过Student的meta-class对象superclass 寻找Person的meta-class
+  - person的mete-class中存储着类方法，找到并实现。 
+
+
+## `总结`
+![OC_2_%E5%AF%B9%E8%B1%A1%E7%9A%84%E5%88%86%E7%B1%BB_isa%3Asupercalss%E6%80%BB%E7%BB%93.png](https://user-gold-cdn.xitu.io/2018/12/20/167cae9a18f98b28?w=898&h=938&f=jpeg&s=93628)
+
+- instance  的 isa指针 指向 class
+
+
+- class     的 isa指针 指向 meta-class
+
+
+- meta-class的 isa指针 指向 基类的meta-calss
+
+
+- class的superclass指向父类的class
+  - 如果没有父类，superclass指针为nil
+
+
+- meta-calss的superclass指向父类的meta-calss
+  - 基类的meta-class的superclass指向基类的class
+
+
+- instance调用对象方法的轨迹
+  - isa先找到class，方法不存在，就通过superclass找父类
+
+
+- class调用的类方法的轨迹
+  - isa找到meta-class，方法不存在，通过superclass找到父类
+
+
+ ##### `问题1： oc对象的isa指针指向哪里？`
+ 1. 如果是instance对象： isa指针指向class对象
+ 2. 如果是class对象：  isa指针指向meta-class对象
+ 3. 如果是meta-class对象： isa指针指向基类的meta-class对象
+
+ ##### `问题2： oc类信息存放在哪里？`
+ 1. instance对象： 成员变量的具体值
+ 2. class对象：    对象方法、属性、成员变量描述信息、协议信息
+ 3. meta-class对象： 类方法
+
+---
+- 文章总结自MJ老师底层视频。
