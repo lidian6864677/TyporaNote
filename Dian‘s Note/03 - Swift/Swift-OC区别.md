@@ -21,3 +21,24 @@
 - **函数和闭包**
   - Swift 可以直接定义函数类型变量，可以作为其他函数参数传递，可以作为函数返回值
   - OC 需要用selector封装或者block才能实现Swift中的效果
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+------
+
+<p align="right" color="orange">	小李小李一路有你</p><p align="right" color="orange">	Dian。</p>	
+
