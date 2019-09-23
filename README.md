@@ -9,6 +9,12 @@
 ### [fastlane 自动部署](http://www.hsdian.cn/?p=260)
 ### xcode获取未使用的图片
 
+
+
+```text
+[fastlane 自动部署](http://www.hsdian.cn/?p=260){:target="_blank"}
+```
+
 # iOS底层原理
 ### iOS底层原理总结--OC对象的本质(一)
 ### iOS底层原理总结--OC对象的本质(二)
