@@ -66,7 +66,6 @@
 
 
 
-
 ----------
 
 
@@ -240,7 +239,7 @@ int main(int argc, char * argv[]) {
 ![enter image description here](http://i.imgur.com/AAERz1T.png)
 
 
- 
+
 ```Objective-C
 + CYLTest NSObject initialize
 + CYLTest NSObject alloc
@@ -363,10 +362,10 @@ typedef void (*voidIMP)(id, SEL, ...)
 
 
 下面我们将基于`objc_storeWeak(&a, b)`函数，使用伪代码模拟“runtime如何实现weak属性”：
- 
 
 
- 
+
+
 ```Objective-C
 // 使用伪代码模拟：runtime如何实现weak属性
 // http://weibo.com/luohanchenyilong/
@@ -389,7 +388,7 @@ typedef void (*voidIMP)(id, SEL, ...)
 
 
 
- 
+
 ```Objective-C
 obj1 = 0；
 obj_storeWeak(&obj1, obj);
@@ -453,14 +452,14 @@ objc_storeWeak(&obj1, 0);
  1. 主线程的run loop默认是启动的。
 
  iOS的应用程序里面，程序启动后会有一个如下的main()函数
- 
+
  ```Objective-C
 int main(int argc, char * argv[]) {
     @autoreleasepool {
         return UIApplicationMain(argc, argv, nil, NSStringFromClass([AppDelegate class]));
     }
 }
-```
+ ```
 
 
 
@@ -475,7 +474,7 @@ int main(int argc, char * argv[]) {
 
  ```Objective-C
 NSRunLoop *runloop = [NSRunLoop currentRunLoop];
-```
+ ```
 
 
 参考链接：[《Objective-C之run loop详解》](http://blog.csdn.net/wzzvictory/article/details/9237973)。
@@ -550,16 +549,16 @@ NSTimer *timer = [NSTimer timerWithTimeInterval:1.0
 	// http://weibo.com/luohanchenyilong/ (微博@iOS程序犭袁)
 	// https://github.com/ChenYilong
 	int main(int argc, char * argv[]) {
-     //程序一直运行状态
-     while (AppIsRunning) {
-          //睡眠状态，等待唤醒事件
-          id whoWakesMe = SleepForWakingUp();
-          //得到唤醒事件
-          id event = GetEvent(whoWakesMe);
-          //开始处理事件
-          HandleEvent(event);
-     }
-     return 0;
+	 //程序一直运行状态
+	 while (AppIsRunning) {
+	      //睡眠状态，等待唤醒事件
+	      id whoWakesMe = SleepForWakingUp();
+	      //得到唤醒事件
+	      id event = GetEvent(whoWakesMe);
+	      //开始处理事件
+	      HandleEvent(event);
+	 }
+	 return 0;
 	}
 
 参考链接：
@@ -697,19 +696,19 @@ autoreleasepool 以一个队列数组的形式实现,主要通过下列三个函
 2016-05-17 02:03:33.559 LeanCloudChatKit-iOS[1505:713679] 定义后：0x155b22fc8
 2016-05-17 02:03:33.559 LeanCloudChatKit-iOS[1505:713679] block内部： 0x155b22fc8
  ```
- 
- 
+
+
 “定义后”和“block内部”两者的内存地址是一样的，我们都知道 block 内部的变量会被 copy 到堆区，“block内部”打印的是堆地址，因而也就可以知道，“定义后”打印的也是堆的地址。
- 
- 
+
+
  那么如何证明“block内部”打印的是堆地址？
- 
+
  把三个16进制的内存地址转成10进制就是：
- 
+
  1. 定义后前：6171559672
  2. block内部：5732708296
  3. 定义后后：5732708296
- 
+
 中间相差438851376个字节，也就是 418.5M 的空间，因为堆地址要小于栈地址，又因为iOS中一个进程的栈区内存只有1M，Mac也只有8M，显然a已经是在堆区了。
 
 这也证实了：a 在定义前是栈区，但只要进入了 block 区域，就变成了堆区。这才是 `__block` 关键字的真正作用。
@@ -1094,7 +1093,6 @@ KVO 在实现中通过 ` isa 混写（isa-swizzling）` 把这个对象的 isa �
 
  1. [ ***The LLDB Debugger*** ](http://lldb.llvm.org/lldb-gdb.html)；
  2. 苹果官方文档：[ ***iOS Debugging Magic*** ](https://developer.apple.com/library/ios/technotes/tn2239/_index.html)。
-
 
 ----------
 
