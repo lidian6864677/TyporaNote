@@ -8,7 +8,6 @@
 
 ...
 
-
 #### OC对象的分类：instance、class、meta-calss对象的isa和superclass
 
 OC对象的分类主要可以分为三种:
@@ -66,7 +65,7 @@ return 0;
   - 如果isa的内存地址为0x10010，那么我们的p1的内存地址也是0x10010，因为isa一定在实例对象的第一位，所以isa的内存地址就是person的内存地址。
 
  ## class
- ##### Class对象在内存中存储的信息包括
+##### Class对象在内存中存储的信息包括
 
 
  ```objc
