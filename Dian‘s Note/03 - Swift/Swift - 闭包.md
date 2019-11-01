@@ -81,9 +81,43 @@ $0,  是代表第一个参数
 
   
 
+### 关键字 @escaping 逃逸闭包
+
+- 非逃逸闭包、逃逸闭包，一般都是当做参数传递给函数
+
+- 非逃逸闭包：闭包调用发生在函数结束前，闭包调用在函数作用域内
+
+- 逃逸闭包：闭包有可能在函数结束之后调用，闭包调用逃离了函数作用域，需要通过@escaping来声名
+
+  ```swift
+  // 非逃逸闭包
+  func test(_ fn: () -> ()){
+  }
+  test{
+    print(1)
+  }
+  
+  // 逃逸闭包
+  typealias Fn = () -> ()
+  var gFn:Fn
+  func test2(_ fn: @escaping Fn){
+    gFn = fn  
+  }
+  // 2. 
+  import Dispatch
+  func test3(_fn: @escaping Fn){
+    // 异步调用  出去调用 所以加上逃逸闭包的内容
+    DispatchQueue.gloabl().async{
+    	fn()  
+    }
+  }
+  
+  
+  ```
+
+  
 
 
-- 
 
 
 

@@ -35,13 +35,15 @@
 
 8. **汇编语言中  如果变量是0x7124(%rip)，一般来说是全局变量**
 
-9. **堆空间 地址   不是0x10008934    如果是0x10001923一 段**  
+9. **堆空间 地址   不是0x10008934    如果是0x10001923一般来说是全局变量 代码段**  
+
+   
 
 10. **123**
 
 
 
-
+<img src="/Users/yuangonmg/Library/Application Support/typora-user-images/image-20191021154326259.png" alt="image-20191021154326259" style="zoom:33%;" />
 
 lldb常用命令：
 

@@ -32,7 +32,41 @@ swift 在安全方面很下功夫、为了保证初始化过程安全，设定�
     - 初始化器现在能够使用self（访问、修改它的属性，调用它的实例方法等）
     - 最终，链中任何便捷初始化器都有机会定制实例以及使用self 
 
+## 访问控制 
 
+​	默认  internal
+
+ 子类的访问控制级别 不能高于父类的级别
+
+###  open
+
+​	允许在定义实体模块、其他模块中访问，允许其他模块进行继承、重写（open只能用在类和类成员上）
+
+### public
+
+​	允许在定义的实体模块、其他模块中访问、不允许其他模块进行继承或重写
+
+### internal
+
+​	只允许在定义实体的模块中访问，不允许在其他模块中访问 
+
+### fileprivate
+
+​	只允许在定义实体的源文中访问
+
+### private
+
+​	只允许在定义实体的封闭声名访问
+
+
+
+public 类的内部的默认初始化器是internal  所以在写库的时候  即使是public类  内部初始化器等也要写上public
+
+### 访问控制：
+
+
+
+![image-20191023154919087](/Users/yuangonmg/Library/Application Support/typora-user-images/image-20191023154919087.png)
 
 
 
@@ -51,6 +85,5 @@ swift 在安全方面很下功夫、为了保证初始化过程安全，设定�
 ------
 
 <p align="right" color="orange">	小李小李一路有你</p><p align="right" color="orange">	Dian。</p>	
-
 
 
