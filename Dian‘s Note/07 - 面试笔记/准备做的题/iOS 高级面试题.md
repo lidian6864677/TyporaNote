@@ -21,14 +21,17 @@
        ```objc
        struct category_t {
          constchar *name; /// 类的名字(cls)
-      calssref_t cls;  ///> l类
+         calssref_t cls;  ///> l类
          struct method_list_t *instanceMethods;     ///> category中所有给类添加的实例方法列表
-      structmethod_list_t *calssMethods;         ///> category中所有添加的类方法列表
+         structmethod_list_t *calssMethods;         ///> category中所有添加的类方法列表
          structprotocol_list_t *protocols;          ///> category实现所有协议的列表
-      structproperty_list_t *instanceproperties; ///> category中添加的所有属性
+         structproperty_list_t *instanceproperties; ///> category中添加的所有属性
        }
     
        
+       ```
+    ```
+   
     ```
    
 2. **被weak修饰后的对象在被释放的时候会发生什么？是如何是实现的? 知道sideTableme ?里面的结构可以画出来吗？ ** 
@@ -221,7 +224,7 @@
 
    - copy： 浅拷贝 不拷贝对象本身，仅仅拷贝指向对象的指针
 
-   - mutableCopy： 深拷贝 直接拷贝整个对象的内存到另一块内存
+   - mutableCopy： 深拷 象的内存到另一块内存
 
    - ![img](https://img-blog.csdn.net/20170517201022425?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvdTAxMTM2Mzk4MQ==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center)
 
