@@ -1,4 +1,4 @@
-####  
+
 
 # Swift - 常用关键字
 
@@ -6,7 +6,9 @@
 
 为了安全  保证任何一套初始化器都是完整 安全的
 
-![image-20191017164736100](file:///Users/yuangonmg/Library/Application%20Support/typora-user-images/image-20191017164736100.png?lastModify=1571302103)
+<img src="https://tva1.sinaimg.cn/large/006tNbRwgy1g9i65qysksj318c0jqgtx.jpg" alt="image-20191017164736100" style="zoom:50%;" />
+
+
 
 ### 两段式初始化
 
@@ -64,9 +66,7 @@ public 类的内部的默认初始化器是internal  所以在写库的时候  �
 
 ### 访问控制：
 
-
-
-![image-20191023154919087](/Users/yuangonmg/Library/Application Support/typora-user-images/image-20191023154919087.png)
+![image-20191023154919087](https://tva1.sinaimg.cn/large/006tNbRwgy1g9i66mpthyj30l20fqgoz.jpg)
 
 
 
@@ -85,4 +85,3 @@ public 类的内部的默认初始化器是internal  所以在写库的时候  �
 ------
 
 <p align="right" color="orange">	小李小李一路有你</p><p align="right" color="orange">	Dian。</p>	
-

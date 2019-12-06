@@ -21,13 +21,13 @@
 
     - 试图在实例销毁后访问无主引用，会产生运行时错误（野指针）
 
-      ![image-20191023164534703](/Users/yuangonmg/Library/Application Support/typora-user-images/image-20191023164534703.png)
+      ![image-20191023164534703](https://tva1.sinaimg.cn/large/006tNbRwgy1g9i6fvxjbij317c02075w.jpg)
 
 ### weak和unowned使用限制
 
 - weak和unowned只能使用在类实例上面
 
-### Autoreleasepool
+  ### Autoreleasepool
 
 
 

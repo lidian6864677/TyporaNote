@@ -1,4 +1,4 @@
-# Swift - 协议 (protocol )
+Swift - 协议 (protocol )
 
 ## 前序
 
@@ -104,13 +104,14 @@ class Person: Drawable{
 
 - 协议可以遵守其他协议
 
-  - ![image-20191018161234349](/Users/yuangonmg/Library/Application Support/typora-user-images/image-20191018161234349.png)
+  <img src="https://tva1.sinaimg.cn/large/006tNbRwgy1g9i6jibxqfj30g20h6juv.jpg" alt="image-20191018161234349" style="zoom:33%;" />
 
   
 
 - 协议组合
   - 协议组合只能包含一个类类型，  
-  - ![image-20191018161538655](/Users/yuangonmg/Library/Application Support/typora-user-images/image-20191018161538655.png)
+  
+    <img src="https://tva1.sinaimg.cn/large/006tNbRwgy1g9i6jpu8ryj30xg0lqdut.jpg" alt="image-20191018161538655" style="zoom:50%;" />
 
 ## 常用协议
 
@@ -118,11 +119,13 @@ class Person: Drawable{
 
   - 让枚举遵守CaseInterable协议，可以实现遍历枚举值
 
-    ​	![image-20191018161638774](/Users/yuangonmg/Library/Application Support/typora-user-images/image-20191018161638774.png)
+    ​	<img src="https://tva1.sinaimg.cn/large/006tNbRwgy1g9i6jk6tdoj30iu0a4tck.jpg" alt="image-20191018161638774" style="zoom:50%;" />
 
 - CustomStringConvertible  自定义实例打印字符串
 
-  ![image-20191018163428539](/Users/yuangonmg/Library/Application Support/typora-user-images/image-20191018163428539.png)
+  
+  
+  <img src="https://tva1.sinaimg.cn/large/006tNbRwgy1g9i6jwax5qj30hy0emwjg.jpg" alt="image-20191018163428539" style="zoom:50%;" />
 
 ### 关键字
 
@@ -132,7 +135,9 @@ class Person: Drawable{
 
   - AnyObject：可以代表任意`类`类型（在协议后面写上：AnyObject 代表只能 类遵守这个协议）
 
-    ![image-20191018163638377](/Users/yuangonmg/Library/Application Support/typora-user-images/image-20191018163638377.png)
+    
+    
+    <img src="https://tva1.sinaimg.cn/large/006tNbRwgy1g9i6jzkrbij30ys05k76t.jpg" alt="image-20191018163638377" style="zoom:50%;" />
 
 - is 、as? 、as！、as
 
@@ -140,32 +145,19 @@ class Person: Drawable{
 
   - as：用来做强制转换
 
-    ![image-20191018164610921](/Users/yuangonmg/Library/Application Support/typora-user-images/image-20191018164610921.png)
+    
 
+    <img src="https://tva1.sinaimg.cn/large/006tNbRwgy1g9i6k39mkhj319q0l0qgo.jpg" alt="image-20191018164610921" style="zoom:33%;" />
+    
     
 
 - X.self、X.Type、AnyClass
   - X.self:是一个元类型（metadata）的指针，metadata存放着类型相关信息
   - X.self属于X.Type类型
-  - 
 
 ### 元类型应用
 
-![image-20191018181310296](/Users/yuangonmg/Library/Application Support/typora-user-images/image-20191018181310296.png)
-
-- Self  大写的Self
-
-  一般用在返回值类型，限定 
-
-
-
-1. 升级更新状态： 关闭、强制升级、可选择升级
-2. 最低支持版本（低于此版本的app，提示升级）
-3. 当前最新版本
-4. 升级文案
-5. app下载地址
-
-
+<img src="https://tva1.sinaimg.cn/large/006tNbRwgy1g9i6kc5cbtj313s0qidrg.jpg" alt="image-20191202104254298" style="zoom: 33%;" />
 
 
 

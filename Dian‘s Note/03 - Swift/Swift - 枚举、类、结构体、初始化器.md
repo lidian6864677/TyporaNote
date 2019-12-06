@@ -121,7 +121,7 @@ print(nu)
 
   所以  枚举的原始值rawValue 是一个计算属性取的值， 并没有占用内存
 
-  ![image-20191015195251353](/Users/yuangonmg/Library/Application Support/typora-user-images/image-20191015195251353.png)
+  ![image-20191015195251353](https://tva1.sinaimg.cn/large/006tNbRwgy1g9i6wik3p5j30ws01sq3v.jpg)
 
   并且不能更改   只有get方法
 
@@ -281,7 +281,7 @@ func test() {
 }
 ```
 
-![image-20191010162250569](/Users/yuangonmg/Library/Application Support/typora-user-images/image-20191010162250569.png)
+![image-20191010162250569](https://tva1.sinaimg.cn/large/006tNbRwgy1g9i6wmudxvj31im0b8q7p.jpg)
 
 - point 内存 和 size的指针变量内存存储在栈空间
   - 堆空间size 存储的是 size对象的在堆空间存储的内存地址	
@@ -433,7 +433,7 @@ Point: 值类型 是在函数里面创建的 在栈空间里面的
 
 为了安全  保证任何一套初始化器都是完整 安全的
 
-![image-20191017164736100](file:///Users/yuangonmg/Library/Application%20Support/typora-user-images/image-20191017164736100.png?lastModify=1571302103)
+![image-20191017164736100](https://tva1.sinaimg.cn/large/006tNbRwgy1g9i6wqtq24j318c0jqgtx.jpg)
 
 ### 两段式初始化
 
