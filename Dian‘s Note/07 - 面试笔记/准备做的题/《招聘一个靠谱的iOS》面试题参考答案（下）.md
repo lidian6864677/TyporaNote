@@ -822,6 +822,7 @@ dispatch_group_notify(group, dispatch_get_main_queue(), ^{
 });
 ```
 ### 42. `dispatch_barrier_async`的作用是什么？
+
  在并行队列中，为了保持某些任务的顺序，需要等待一些任务完成后才能继续进行，使用 barrier 来等待之前任务完成，避免数据竞争等问题。 
  `dispatch_barrier_async` 函数会等待追加到Concurrent Dispatch Queue并行队列中的操作全部执行完之后，然后再执行 `dispatch_barrier_async` 函数追加的处理，等 `dispatch_barrier_async` 追加的处理执行结束之后，Concurrent Dispatch Queue才恢复之前的动作继续执行。
 
