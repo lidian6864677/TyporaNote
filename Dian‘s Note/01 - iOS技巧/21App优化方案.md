@@ -210,35 +210,7 @@
     - 在不影响用户体验的前提下，尽可能将一些操作延迟，不要全部都放在finishLaunching方法中
     - 按需求加载
 
-#### 6. 安装包瘦身 
 
-- 安装包（IPA）主要由可执行文件、资源组成
-
-- 资源（图片、音频、视频等）
-
-  - 采用无损压缩 
-  - 去除没用到的资源文件（[GitHub -查询多余的资源文件_下载链接](https://github.com/tinymind/LSUnusedResources)）
-
-- 可执行文件瘦身
-
-  - 编译器优化
-
-    - Strip Linked Product、Make Strings Read-Only、Symbols Hidden by Default设置为YES
-    - 去掉异常支持，Enable C++ Exceptions、Enable Objective-C Exceptions设置为NO，Other C Flags添加-fno-exceptions
-
-  - 利用AppCode（[AppCode_下载链接](https://www.jetbrains.com/objc/)）检测未使用的代码:
-
-    - 菜单栏 -> Code -> inspect Code 
-
-  - 编写LLVM插件检测出重复代码、未被调用的代码
-
-  - 生成LinkMap文件，可以查看可执行文件的具体组成 
-
-    ![](https://user-gold-cdn.xitu.io/2019/5/13/16ab09123a21ba79?w=663&h=171&f=png&s=38037)
-
-     - 可借助第三方工具解析LinkMap文件 [GitHub -检查每个类占用空间大小工具_下载链接](https://github.com/huanxsd/LinkMap)
-
-#
 
 
 
