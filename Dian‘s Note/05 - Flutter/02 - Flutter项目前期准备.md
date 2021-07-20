@@ -4,7 +4,9 @@
 
 - git下载SDK
 
-  -  git clone -b beta https://github.com/flutter/flutter.git
+  - git clone -b beta https://github.com/flutter/flutter.git
+
+    -  git clone -b master https://github.com/flutter/flutter.git
 
   - 如果长时间没下载下来或者连接失败 先设置一下这两个环境变量
 
@@ -58,9 +60,15 @@
   - 大部分问题解决方式在文档中都能查到： https://flutterchina.club/setup-macos/
 
 - 配置编译器
-  - Android Studio.
+  
+  - Xcode安装 
+  - Android Studio.安装 并配置
     - 启动Android Studio.
-    - 打开插件首选项 (**Preferences>Plugins** on macOS, **File>Settings>Plugins** on Windows & Linux).
+    - 打开插件首选项 (
+      - macOS：
+        - **Preferences>Plugins** 
+      - Windows & Linux：
+        -  **File>Settings>Plugins** 
     - 选择 **Browse repositories…**, 选择 Flutter 插件并点击 `install`.
     - 重启Android Studio后插件生效.
   - VS Code

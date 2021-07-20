@@ -154,7 +154,6 @@ Markdown将文本转换为 HTML。
 
 Gamma公式展示 $\Gamma(n) = (n-1)!\quad\forall
 n\in\mathbb N$ 是通过欧拉积分
-
 $$
 \Gamma(z) = \int_0^\infty t^{z-1}e^{-t}dt\,.
 $$
@@ -209,7 +208,7 @@ C --> D
 
 我们依旧会支持flowchart的流程图：
 ```mermaid
-flowchat
+FLowchart
 st=>start: 开始
 e=>end: 结束
 op=>operation: 我的操作
