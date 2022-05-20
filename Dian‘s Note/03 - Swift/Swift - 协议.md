@@ -21,7 +21,7 @@ Swift - 协议 (protocol )
 protocol Drawable{
   func draw() 
   var x: Int { get set }
-  var y: Int { ge t}
+  var y: Int { get}
   subscript(index: Int) -> Int { get set }
 }
 

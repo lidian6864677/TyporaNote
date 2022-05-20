@@ -78,3 +78,8 @@
     - 在搜索框输入 `flutter` , 在搜索结果列表中选择 ‘Flutter’, 然后点击 **Install**
     - 选择 ‘OK’ 重新启动 VS Code
 
+```
+listType  0:财富榜  1:魅力榜
+rankType  1:日榜  2:周榜
+```
+
