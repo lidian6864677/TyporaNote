@@ -1,5 +1,5 @@
 # TyporaNote
-
+   
 ## 01 - iOS技巧
 
 ### <a href="https://github.com/lidian6864677/TyporaNote/blob/master/Dian‘s%20Note/01%20-%20iOS技巧/App启动优化方案.md" target="_blank">App启动优化方案</a>
@@ -67,12 +67,16 @@
 ## 08 - Other
 
 ### <a href="地址" target="_blank">Other</a>
-
+## 08 - Git 操作指南
 
 
 ------
 
 <p align="right" color="orange">	小李小李一路有你</p><p align="right" color="orange">	Dian。</p>	
 
+
 test
 222--1
+
+merge1
+
